@@ -6,70 +6,67 @@
 
  
 // TODO: Get users zip code to gather list of restuarants near by based on a their distance from user 
+function ZipCodeFormatException(value) {
+    this.value = value
+    this.message = 'does not conform to the expected format for a zip code'
+    this.toString = function () {
+        return this.value + this.message
+    }
+}
+
 // Zipcode validation
 function ZipCode(zip) {
     // zip = new String(zip);
-    const pattern = /[0-9]{5}([- ]?[0-9]{4})?/;
+    const pattern = /[0-9]{5}([- ]?[0-9]{4})?/
     if (pattern.test(zip)) {
         // zip code value will be the first match in the string
-        this.value = zip.match(pattern)[0];
+        this.value = zip.match(pattern)[0]
         this.valueOf = function () {
-            return this.value;
-        };
+            return this.value
+        }
         this.toString = function () {
-            return String(this.value);
-        };
+            return String(this.value)
+        }
     } else {
-        throw new ZipCodeFormatException(zip);
+        throw new ZipCodeFormatException(zip)
     }
 }
-
-function ZipCodeFormatException(value) {
-    this.value = value;
-    this.message = 'does not conform to the expected format for a zip code';
-    this.toString = function () {
-        return this.value + this.message;
-    };
-}
-
-/*
- * This could be in a script that validates address data
- * for US addresses.
- */
 
 
 function verifyZipCode(z) {
-    const ZIPCODE_INVALID = -1;
-    const ZIPCODE_UNKNOWN_ERROR = -2;
-     const zipInput = document.querySelector('input');
+    const ZIPCODE_INVALID = -1
+    const ZIPCODE_UNKNOWN_ERROR = -2
+    const zipInput = document.querySelector('input')
 
     try {
-        if(z === new ZipCode(zipInput)){return z;} 
+        if(z === new ZipCode(zipInput)) {
+            return z
+        } 
     } catch (e) {
         if (e instanceof ZipCodeFormatException) {
-            return ZIPCODE_INVALID;
+            return ZIPCODE_INVALID
         } 
-            return ZIPCODE_UNKNOWN_ERROR;   
+            return ZIPCODE_UNKNOWN_ERROR   
     }
 }
+const formElement = document.querySelector('form')
+const formData = new FormData(verifyZipCode(formElement))
+console.log(formData)
+const request = new XMLHttpRequest()
+const display = document.querySelector('display-picks')
+const button = document.querySelector('button')
 
-
-
-// TODO: connect to yelp api to receive data about restuarants. using fetch method
-//* yelp search api
-//  https: //api.yelp.com/v3/businesses/search
-
-// ?term=restuarants&location=27601
- 
-const restaurants = fetch(http://localhost:3000/restaurants).then(res => res.json()).catch((err) => 
-console.error(err))
-const display = document.querySelector('#display-picks');
-let button = document.querySelector('#button');
-button.addEventListener('click',event => {
-    // return restuarants;
-    console.log(restaurants);
-    
-});
+button.addEventListener('click',() => {
+    // return restuarants
+    request.open('POST', '../server.js')
+    request.send(formData)
+    const restaurants = fetch('127.0.0.1:7001').then(res => res.json()).catch((err) =>
+        console.error(err))
+    console.log(restaurants)
+    display.innerHTML(restaurants)
+    formElement.zipInput.val('')
+   
+})
 // TODO: create filtering function that allows user to exclude places (i.e: dietary restrictions, allergies, etc.)
  
 
