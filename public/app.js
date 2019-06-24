@@ -32,11 +32,11 @@ function ZipCode(zip) {
     }
 }
 
+const zipInput = document.querySelector('input').value
 
 function verifyZipCode(z) {
     const ZIPCODE_INVALID = -1
     const ZIPCODE_UNKNOWN_ERROR = -2
-    const zipInput = document.querySelector('input')
 
     try {
         if(z === new ZipCode(zipInput)) {
@@ -48,19 +48,21 @@ function verifyZipCode(z) {
         } 
             return ZIPCODE_UNKNOWN_ERROR   
     }
+    return verifyZipCode()
 }
 const formElement = document.querySelector('form')
-const formData = new FormData(verifyZipCode(formElement))
-console.log(formData)
+
 const request = new XMLHttpRequest()
 const display = document.querySelector('display-picks')
 const button = document.querySelector('button')
 
 button.addEventListener('click',() => {
+    const formData = verifyZipCode(zipInput)
+    console.log(formData)
     // return restuarants
-    request.open('POST', '../server.js')
+    request.open('POST', '127.0.0.1:7001', true)
     request.send(formData)
-    const restaurants = fetch('127.0.0.1:7001').then(res => res.json()).catch((err) =>
+    const restaurants = fetch('127.0.0.1:7001/?zip-code=location').then(res => res.json()).catch((err) =>
         console.error(err))
     console.log(restaurants)
     display.innerHTML(restaurants)

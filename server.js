@@ -2,8 +2,10 @@ require('dotenv').config()
 const path = require('path')
 const yelp = require('yelp-fusion')
 const express = require('express')
+const bodyParser = require('body-parser')
 
 const app = express()
+const urlEncodedParser = bodyParser.urlencoded({extended: false})
 const apiKey = process.env.YELP_API_KEY
 const client = yelp.client(apiKey)
 const port = 7001
@@ -39,12 +41,12 @@ const searchReq = {
     location: this.location,
     limit: 5,
 }
-const {location} = searchReq
+
 
 app.use(express.static(path.join(__dirname, 'public')))
-app.post('/', (req, res) => {
+
+app.get('/?zip-code=location', (req, res) => {
     client.search(searchReq).then(response => {
-        // console.log(response.jsonBody.businesses)
         const results = JSON.stringify(response.jsonBody.businesses, null, 4)
         console.log(results)
         res.send(results)
