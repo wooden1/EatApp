@@ -5,6 +5,7 @@
     --secondary-clr: #f2900f;
     --white: rgba(233, 233, 233, 0.801);
     --blk: #353535;
+    --bradius: 8px;
 }
 
 /* 🌎 */
@@ -24,6 +25,7 @@
 }
 
 h1{
+    text-shadow:  2px 2px var(--blk);
     color: var(--secondary-clr);
     font-family: Spirax; 
     justify-self: center;
@@ -35,13 +37,16 @@ figure{
     width:100vw;
 }
 img{
+    background-color: var(--white);
+    box-shadow: 2px 5px 5px 2px var(--blk);
     display: block;
-    border: 2px solid var(--blk);
-    border-radius: 8px;
+    border: 2px solid var(--secondary-clr);
+    border-radius: var(--bradius);
     height: auto;
     width:90%;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: .5rem;
 }
 
 figcaption{
