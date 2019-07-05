@@ -1,25 +1,64 @@
+@import url('https://fonts.googleapis.com/css?family=Anton|Lobster|Spirax');
+/* 🥕 */
+:root{
+    --prime: #3352aa;
+    --secondary-clr: #f2900f;
+    --white: rgba(233, 233, 233, 0.801);
+    --blk: #353535;
+}
+
+/* 🌎 */
 *,*:before,*:after{
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    line-height: 1.25;
 }
-/* #canvas{
-    background:#c5c4c4;
-    border: 2px solid #7caf65;
-    height: 40vh;
-    width: 100vw;
-    color: bisque; 
-} */
 
 #container{
     display: grid;
-    background-color: #3352aa;
+    font-family: Verdana, Geneva, Tahoma,   sans-serif;
+    background-color: var(--prime);
     width: 100vw;
     height: 100vh;
 }
 
 h1{
+    color: var(--secondary-clr);
+    font-family: Spirax; 
     justify-self: center;
 }
+
+figure{
+    align-self: center;
+    text-align: center;
+    width:100vw;
+}
+img{
+    display: block;
+    border: 2px solid var(--blk);
+    border-radius: 8px;
+    height: auto;
+    width:90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+figcaption{
+    display: inline;
+    color: var(--white);
+    font-size: .8rem;
+    text-decoration: none;
+}
+i{
+    margin-left: .3rem;
+    color: var(--blk);
+    font-size: 1.1rem;
+}
+figcaption:hover{
+    color:var(--secondary-clr);
+} 
+
 
 form{
     display: flex;
@@ -28,7 +67,20 @@ form{
 }
 
 .form-space{
+    font-size: 1.1rem;
     margin-right: 1em;
-    color: #f2900f;
+    color: var(--secondary-clr);
 }
+
+
+footer{
+    bottom: 0; 
+    color: var(--white);
+    font-family: Anton;
+    height: 1.5rem;
+    position: absolute;
+    text-align: center;    
+    width: 100vw;
+} 
+
  
