@@ -42,11 +42,11 @@ img{
     display: block;
     border: 2px solid var(--secondary-clr);
     border-radius: var(--bradius);
-    height: auto;
+    max-height: 40vh;
+    max-width: 90%;
     width:90%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: .5rem;
+    height: auto;
+    margin: 0 auto .5rem auto;
 }
 
 figcaption{
@@ -77,15 +77,51 @@ form{
     color: var(--secondary-clr);
 }
 
+#display-picks{ 
+   height: 40vh;
+   border: 1px solid black; 
+}
+/* .outer-wrapper{
+    width: 50vh;
+    height: 100vw;
+    transform: rotate(-90deg) translateX(-100vh);
+    transform-origin: top left;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+}
+.wrapper{
+    display: flex;
+    flex-direction: row;
+    width: 300vw;
+    transform: rotate(90deg) translateY(-100vh);
+    transform-origin: top left;
+}
+
+.slide {
+    width: 100vw;
+    height: 100vh;
+}
+.one{
+    background: #efdefe;
+}
+.two{
+    background: #a2f2d2;
+}
+.three{
+    background: #0bbaa0;
+} */
+
 
 footer{
-    bottom: 0; 
     color: var(--white);
-    font-family: Anton;
-    height: 1.5rem;
-    position: absolute;
-    text-align: center;    
+    font-family: Anton;   
+    text-align: center;
     width: 100vw;
 } 
+
+span{
+    margin-top: 2rem;
+}
 
  
