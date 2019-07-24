@@ -31,13 +31,12 @@ function ZipCode(zip) {
   }
 }
 
-const zipInput = document.querySelector('input').value
 function verifyZipCode(z) {
   const ZIPCODE_INVALID = -1
   const ZIPCODE_UNKNOWN_ERROR = -2
 
   try {
-    if (z === new ZipCode(zipInput)) {
+    if (z === new ZipCode(z)) {
       return z
     }
   } catch (e) {
@@ -48,28 +47,37 @@ function verifyZipCode(z) {
   }
   return verifyZipCode()
 }
-const formElement = document.querySelector('form')
 
-const display = document.querySelector('#display-picks')
-const button = document.querySelector('button')
+const formElement = document.querySelector('#form')
 
-button.addEventListener('click', () => {
-  const location = verifyZipCode(zipInput)
-  const data = { location }
-  fetch('127.0.0.1:7001/?', {
+formElement.addEventListener('submit', (e) => {
+  // e.preventDefault()
+  const display = document.querySelector('#display-picks')
+  const zipInput = document.querySelector('input').value
+  const zipcode = verifyZipCode(zipInput)
+  const url = new URL('127.0.0.1:7001/')
+  // const formData = new FormData(this)
+  const params = new URLSearchParams(url.search.slice(1)).toString().split('=').delete('=')
+  const postReq = {
     method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then(res => console.log(res.json()))
-    .catch((err) => {
-      throw Error('Something went wrong with the request', err)
-    })
+    body: JSON.stringify(params),
+  }
+
+  if (zipcode !== zipInput) {
+    // Todo: create modal message to handle zipcode error
+    console.error('zipcode was incorrect')
+  } else {
+    fetch(url, postReq)
+      .then(req => req.json())
+      .catch((err) => {
+        throw Error('Request failed', err)
+      })
+  }
 
   // return restuarants
-  const restaurants = fetch(`127.0.0.1:7001/?zip-code=${data}`)
+  const restaurants = () => fetch(url)
     .then(res => res.json())
+    .then(data => JSON.parse(data))
     .catch((err) => {
       throw Error('Fetch data did not return properly', err)
     })

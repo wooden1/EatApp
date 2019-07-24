@@ -8,8 +8,10 @@ require('dotenv').config()
 const path = require('path')
 const yelp = require('yelp-fusion')
 const express = require('express')
-// const bodyParser = require('body-parser')
-// const querystring = require('querystring')
+const bodyParser = require('body-parser')
+const querystring = require('querystring')
+const cors = require('cors')
+
 
 const app = express()
 // const urlEncodedParser = bodyParser.urlencoded({ extended: false })
@@ -63,28 +65,32 @@ function verifyZipCode(z) {
 const searchReq = {
   term: 'restaurants',
   location: null,
-  limit: 5,
+  distance: 8046.72, // 5 miles
+  limit: 2,
 }
 
-
-app.use(express.static(path.join(__dirname, 'public')))
-
-app.get(`/?zip-code=${searchReq.location}`, (req, res) => {
-  const { zipcode } = req.query
-  if (!verifyZipCode(zipcode)) {
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.get('/', (req, res) => res.render('index'))
+app.post('/', cors(), (req, res) => {
+  const zipcode = req.body.location
+  if (verifyZipCode(zipcode) !== zipcode) {
     throw Error(`${zipcode} is not a valid zip code`)
+  } else {
+    searchReq.location = zipcode
   }
-  searchReq.location = zipcode
 
-  client.search(searchReq).then((response) => {
-    const results = JSON.stringify(response.jsonBody.businesses, null, 4)
-    res.send(results)
+  const results = client.search(searchReq).then((response) => {
+    const data = JSON.stringify(response.jsonBody.businesses, null, 4)
+    // console.log(results)
+    return data
   }).catch((e) => {
-    throw Error('There was a problem receiving zip-code', e)
+    throw Error('Problem with defined search requirements', e)
   })
+  res.send(results)
 })
 
-// app.use((req, res) => res.sendFile(`${__dirname}../../public/index.html`))
+app.use(express.static(path.join(__dirname, 'public')))
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`)
 })
