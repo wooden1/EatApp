@@ -50,40 +50,46 @@ function verifyZipCode(z) {
 
 const formElement = document.querySelector('#form')
 
-formElement.addEventListener('submit', (e) => {
+formElement.addEventListener('submit', () => {
   // e.preventDefault()
   const display = document.querySelector('#display-picks')
   const zipInput = document.querySelector('input').value
   const zipcode = verifyZipCode(zipInput)
-  const url = new URL('127.0.0.1:7001/')
-  // const formData = new FormData(this)
-  const params = new URLSearchParams(url.search.slice(1)).toString().split('=').delete('=')
+  const url = new URL(`http://127.0.0.1:7001/?location=${zipInput}`)
+
   const postReq = {
     method: 'POST',
-    body: JSON.stringify(params),
+    mode: 'cors',
   }
 
-  if (zipcode !== zipInput) {
-    // Todo: create modal message to handle zipcode error
-    console.error('zipcode was incorrect')
-  } else {
-    fetch(url, postReq)
-      .then(req => req.json())
-      .catch((err) => {
-        throw Error('Request failed', err)
-      })
-  }
+  fetch(url, postReq)
+    .then(res => res.json())
+    .then(data => console.log(data))
+
+  //   .then(req => req.json())
+  //   .catch((err) => { throw Error('Request failed', err) })
+  // if (zipcode !== zipInput) {
+  //   // Todo: create modal message to handle zipcode error
+  //   console.error('zipcode was incorrect')
+  // } else {
+  //   fetch(url, postReq)
+  //     .then(req => req.json())
+  //     .catch((err) => {
+  //       throw Error('Request failed', err)
+  //     })
+  // }
 
   // return restuarants
-  const restaurants = () => fetch(url)
-    .then(res => res.json())
-    .then(data => JSON.parse(data))
-    .catch((err) => {
-      throw Error('Fetch data did not return properly', err)
-    })
-
-  display.innerHTML(restaurants)
-  formElement.zipInput.value('')
+  // const restaurants = fetch(`${url}`)
+  //   .then(res => res.json())
+  //   .then(data => JSON.parse(data))
+  //   .then(data => console.log(data))
+  //   .catch((err) => {
+  //     throw Error('Fetch data did not return properly', err)
+  //   })
+  // console.log(restaurants)
+  // display.textContent = `${restaurants}`
+  // formElement.zipInput.value('')
 })
 // TODO: create filter function that allows user to exclude places (i.e: dietary restrictions, allergies, etc.)
 

@@ -68,26 +68,24 @@ const searchReq = {
   distance: 8046.72, // 5 miles
   limit: 2,
 }
-
-app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.get('/', (req, res) => res.render('index'))
-app.post('/', cors(), (req, res) => {
-  const zipcode = req.body.location
-  if (verifyZipCode(zipcode) !== zipcode) {
-    throw Error(`${zipcode} is not a valid zip code`)
-  } else {
-    searchReq.location = zipcode
-  }
+app.use(bodyParser.json())
 
-  const results = client.search(searchReq).then((response) => {
-    const data = JSON.stringify(response.jsonBody.businesses, null, 4)
-    // console.log(results)
-    return data
-  }).catch((e) => {
-    throw Error('Problem with defined search requirements', e)
-  })
-  res.send(results)
+app.post('/', cors(), (req, res) => {
+  const zipcode = req.query.location
+  // if (verifyZipCode(zipcode) !== zipcode) {
+  //   throw Error(`${zipcode} is not a valid zip code`)
+  // } else {
+  //   searchReq.location = zipcode
+  // }
+  searchReq.location = zipcode
+
+  const results = client.search(searchReq)
+    .then(response => JSON.stringify(response.jsonBody.businesses, null, 4))
+    .then((data) => {
+      res.set('Content-Type', 'text/html')
+      res.send(data)
+    })
 })
 
 app.use(express.static(path.join(__dirname, 'public')))
