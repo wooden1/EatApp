@@ -15,26 +15,17 @@ function ZipCodeFormatException(value) {
 
 // Zipcode validation
 function ZipCode(zip) {
-// zip = new String(zip);
   const pattern = /[0-9]{5}([- ]?[0-9]{4})?/
-  if (pattern.test(zip)) {
-    // zip code value will be the first match in the string
-    const { value } = zip.match(pattern)
-    this.valueOf = function () {
-      return value
-    }
-    this.toString = function () {
-      return String(value)
-    }
-  } else {
+  if (!pattern.test(zip)) {
     throw new ZipCodeFormatException(zip)
+  } else {
+    return zip
   }
 }
 
 function verifyZipCode(z) {
   const ZIPCODE_INVALID = -1
   const ZIPCODE_UNKNOWN_ERROR = -2
-
   try {
     if (z === new ZipCode(z)) {
       return z
@@ -45,7 +36,7 @@ function verifyZipCode(z) {
     }
     return ZIPCODE_UNKNOWN_ERROR
   }
-  return verifyZipCode()
+  // return verifyZipCode()
 }
 
 const formElement = document.querySelector('#form')
@@ -54,41 +45,32 @@ formElement.addEventListener('submit', () => {
   // e.preventDefault()
   const display = document.querySelector('#display-picks')
   const zipInput = document.querySelector('input').value
-  const zipcode = verifyZipCode(zipInput)
-  const url = new URL(`http://127.0.0.1:7001/?location=${zipInput}`)
+  const zipcode = ZipCode(zipInput)
+  const url = new URL('http://127.0.0.1:7001')
+  // const url = new URL(document.location)
+  const queryStr = `location=${zipcode}`
+  queryStr.replace
+  console.log(JSON.stringify(queryStr))
+  console.log(zipcode)
+
 
   const postReq = {
     method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    }),
+    body: JSON.stringify(queryStr),
     mode: 'cors',
   }
 
-  fetch(url, postReq)
+
+  fetch(`${url}`, postReq)
     .then(res => res.json())
     .then(data => console.log(data))
+    .catch(err => console.log(err))
 
-  //   .then(req => req.json())
-  //   .catch((err) => { throw Error('Request failed', err) })
-  // if (zipcode !== zipInput) {
-  //   // Todo: create modal message to handle zipcode error
-  //   console.error('zipcode was incorrect')
-  // } else {
-  //   fetch(url, postReq)
-  //     .then(req => req.json())
-  //     .catch((err) => {
-  //       throw Error('Request failed', err)
-  //     })
-  // }
 
-  // return restuarants
-  // const restaurants = fetch(`${url}`)
-  //   .then(res => res.json())
-  //   .then(data => JSON.parse(data))
-  //   .then(data => console.log(data))
-  //   .catch((err) => {
-  //     throw Error('Fetch data did not return properly', err)
-  //   })
-  // console.log(restaurants)
-  // display.textContent = `${restaurants}`
   // formElement.zipInput.value('')
 })
 // TODO: create filter function that allows user to exclude places (i.e: dietary restrictions, allergies, etc.)

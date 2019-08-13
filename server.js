@@ -29,7 +29,6 @@ function ZipCodeFormatException(value) {
 
 // Zipcode validation
 function ZipCode(zip) {
-// zip = new String(zip);
   const pattern = /[0-9]{5}([- ]?[0-9]{4})?/
   if (pattern.test(zip)) {
     // zip code value will be the first match in the string
@@ -79,12 +78,15 @@ app.post('/', cors(), (req, res) => {
   //   searchReq.location = zipcode
   // }
   searchReq.location = zipcode
+  res.set('Content-Type', 'application/json')
 
-  const results = client.search(searchReq)
+  client.search(searchReq)
     .then(response => JSON.stringify(response.jsonBody.businesses, null, 4))
     .then((data) => {
-      res.set('Content-Type', 'text/html')
+      console.log(data)
       res.send(data)
+    }).catch((err) => {
+      console.log(err)
     })
 })
 

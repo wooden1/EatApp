@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Anton|Lobster|Spirax');
 /* 🥕 */
 :root{
-    --prime: #3352aa;
+    /* --prime: #3352aa; */
+     --prime: linear-gradient(120deg, #3352aa, #7065ff, #3098ff);
     --secondary-clr: #f2900f;
     --white: rgba(233, 233, 233, 0.801);
     --blk: #353535;
@@ -19,7 +20,7 @@
 #container{
     display: grid;
     font-family: Verdana, Geneva, Tahoma,   sans-serif;
-    background-color: var(--prime);
+    background: var(--prime);
     width: 100vw;
     height: 100vh;
 }
