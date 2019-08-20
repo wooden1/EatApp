@@ -68,16 +68,17 @@ const searchReq = {
   limit: 2,
 }
 app.use(express.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(express.json())
 
-app.post('/', cors(), (req, res) => {
-  const zipcode = req.query.location
+app.post('/', (req, res) => {
+  const zipCode = req.body.location
   // if (verifyZipCode(zipcode) !== zipcode) {
   //   throw Error(`${zipcode} is not a valid zip code`)
   // } else {
   //   searchReq.location = zipcode
   // }
-  searchReq.location = zipcode
+  searchReq.location = zipCode
+  console.log(searchReq)
   res.set('Content-Type', 'application/json')
 
   client.search(searchReq)

@@ -48,10 +48,11 @@ formElement.addEventListener('submit', () => {
   const zipcode = ZipCode(zipInput)
   const url = new URL('http://127.0.0.1:7001')
   // const url = new URL(document.location)
-  const queryStr = `location=${zipcode}`
-  queryStr.replace
-  console.log(JSON.stringify(queryStr))
-  console.log(zipcode)
+  const queryStr = {
+    location: zipcode,
+  }
+
+  // console.log(JSON.stringify(queryStr))
 
 
   const postReq = {
@@ -61,7 +62,7 @@ formElement.addEventListener('submit', () => {
       // 'Content-Type': 'application/x-www-form-urlencoded',
     }),
     body: JSON.stringify(queryStr),
-    mode: 'cors',
+    mode: 'no-cors',
   }
 
 
