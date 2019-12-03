@@ -26,7 +26,7 @@
 }
 
 h1{
-    text-shadow:  2px 2px var(--blk);
+    text-shadow: 2px 2px var(--blk);
     color: var(--secondary-clr);
     font-family: Spirax; 
     justify-self: center;
@@ -72,6 +72,19 @@ form{
     justify-content: center;
 }
 
+input {
+    border-radius: 1.1rem;
+    text-align:justify;
+}
+#button{
+    background-color: inherit;
+    border:none;
+
+}
+.fa-search-location{
+    color: var(--secondary-clr);
+}
+
 .form-space{
     font-size: 1.1rem;
     margin-right: 1em;
@@ -79,8 +92,9 @@ form{
 }
 
 #display-picks{ 
-   height: 40vh;
+   /* height: 40vh;
    border: 1px solid black; 
+   width: 100vw; */
 }
 
 

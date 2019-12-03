@@ -8,10 +8,6 @@ require('dotenv').config()
 const path = require('path')
 const yelp = require('yelp-fusion')
 const express = require('express')
-const bodyParser = require('body-parser')
-const querystring = require('querystring')
-const cors = require('cors')
-
 
 const app = express()
 // const urlEncodedParser = bodyParser.urlencoded({ extended: false })
@@ -30,65 +26,38 @@ function ZipCodeFormatException(value) {
 // Zipcode validation
 function ZipCode(zip) {
   const pattern = /[0-9]{5}([- ]?[0-9]{4})?/
-  if (pattern.test(zip)) {
-    // zip code value will be the first match in the string
-    // this.value = zip.match(pattern)[0]
-    const { value } = zip.match(pattern)
-    this.valueOf = function () {
-      return value
-    }
-    this.toString = function () {
-      return String(value)
-    }
-  } else {
+  if (!pattern.test(zip)) {
     throw new ZipCodeFormatException(zip)
+  } else {
+    return zip
   }
-}
-function verifyZipCode(z) {
-  const ZIPCODE_INVALID = -1
-  const ZIPCODE_UNKNOWN_ERROR = -2
-
-  try {
-    if (z === new ZipCode(z)) {
-      return z
-    }
-  } catch (e) {
-    if (e instanceof ZipCodeFormatException) {
-      return ZIPCODE_INVALID
-    }
-    return ZIPCODE_UNKNOWN_ERROR
-  }
-  return verifyZipCode()
 }
 
 const searchReq = {
   term: 'restaurants',
   location: null,
   distance: 8046.72, // 5 miles
-  limit: 2,
+  limit: 1,
 }
+
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-app.post('/', (req, res) => {
-  const zipCode = req.body.location
-  // if (verifyZipCode(zipcode) !== zipcode) {
-  //   throw Error(`${zipcode} is not a valid zip code`)
-  // } else {
-  //   searchReq.location = zipcode
-  // }
-  searchReq.location = zipCode
-  console.log(searchReq)
-  res.set('Content-Type', 'application/json')
+app.post('/results', (req, res) => {
+  const zipcode = req.body.location
+  if (ZipCode(zipcode) !== zipcode) {
+    throw Error(`${zipcode} is not a valid zip code`)
+  } else {
+    searchReq.location = zipcode
 
-  client.search(searchReq)
-    .then(response => JSON.stringify(response.jsonBody.businesses, null, 4))
-    .then((data) => {
-      console.log(data)
-      res.send(data)
-    }).catch((err) => {
-      console.log(err)
-    })
+    client
+      .search(searchReq)
+      .then(response => JSON.stringify(response.jsonBody.businesses, null, 4))
+      .then(data => res.send(data))
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 })
 
 app.use(express.static(path.join(__dirname, 'public')))

@@ -1,8 +1,9 @@
+
 /**
  ** ***************  EATSIT APP ******************
-**           composition by Lynnwood Ray
-** **********************************************
-*/
+ **           composition by Lynnwood Ray
+ ** **********************************************
+ */
 
 // TODO: Get users zip code to gather list of restuarants near by based on a their distance
 function ZipCodeFormatException(value) {
@@ -27,7 +28,7 @@ function verifyZipCode(z) {
   const ZIPCODE_INVALID = -1
   const ZIPCODE_UNKNOWN_ERROR = -2
   try {
-    if (z === new ZipCode(z)) {
+    if (z === ZipCode(z)) {
       return z
     }
   } catch (e) {
@@ -36,7 +37,7 @@ function verifyZipCode(z) {
     }
     return ZIPCODE_UNKNOWN_ERROR
   }
-  // return verifyZipCode()
+  return verifyZipCode
 }
 
 const formElement = document.querySelector('#form')
@@ -45,32 +46,66 @@ formElement.addEventListener('submit', () => {
   // e.preventDefault()
   const display = document.querySelector('#display-picks')
   const zipInput = document.querySelector('input').value
-  const zipcode = ZipCode(zipInput)
+  const zipcode = verifyZipCode(zipInput)
   const url = new URL('http://127.0.0.1:7001')
-  // const url = new URL(document.location)
+
   const queryStr = {
     location: zipcode,
   }
 
-  // console.log(JSON.stringify(queryStr))
+  function appendResultData(data) {
+    for (let i = 0; i < data.length; i++) {
+      const div = document.createElement('div')
+      div.innerHTML = ` <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="${data[i].image_url} alt="restaurant" style="width:200px;height:200px;">
+            </div>
+            <div class="flip-card-back">
+              <h2>${data[i].name}</h2> 
+              <p>${data[i].rating}</p>
+              <p>${data[i].location.display_address}
+              </p> 
+              <p>${data[i].phone}</p>
+            </div>
+          </div>
+        </div> `
 
+      display.appendChild(div)
+    }
+  }
 
   const postReq = {
     method: 'POST',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    }),
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      Accept: '*/*',
+    },
+    // body: JSON.stringify(queryStr),
     body: JSON.stringify(queryStr),
     mode: 'no-cors',
   }
 
+  function status(response) {
+    if (response.status >= 200 && response.status < 300) {
+      return Promise.resolve(response)
+    }
+    return Promise.reject(new Error(response.statusText))
+  }
 
-  fetch(`${url}`, postReq)
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.log(err))
+  function jsonRes(response) {
+    return JSON.parse(response)
+  }
 
+  if (!status) {
+    console.log('bad request')
+  }
+
+  fetch(url, postReq)
+    .then(data => jsonRes(data))
+    .catch((err) => {
+      console.log(err)
+    })
 
   // formElement.zipInput.value('')
 })
@@ -79,4 +114,3 @@ formElement.addEventListener('submit', () => {
 // TODO: Create a function for picking a place at random
 
 // TODO: Create a UI slider to limit/expand search distance
-
