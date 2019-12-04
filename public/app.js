@@ -102,7 +102,8 @@ formElement.addEventListener('submit', () => {
   }
 
   fetch(url, postReq)
-    .then(data => jsonRes(data))
+    .then(response => jsonRes(response))
+    .then(data => appendResultData(data))
     .catch((err) => {
       console.log(err)
     })
