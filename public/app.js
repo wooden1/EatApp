@@ -40,14 +40,14 @@ function verifyZipCode(z) {
   return verifyZipCode
 }
 
-const formElement = document.querySelector('#form')
+const formElement = document.querySelector('#button')
 
-formElement.addEventListener('submit', () => {
+formElement.addEventListener('click', () => {
   // e.preventDefault()
   const display = document.querySelector('#display-picks')
   const zipInput = document.querySelector('input').value
   const zipcode = verifyZipCode(zipInput)
-  const url = new URL('http://127.0.0.1:7001')
+  const url = new URL('http://localhost:7001/results')
 
   const queryStr = {
     location: zipcode,
@@ -82,8 +82,7 @@ formElement.addEventListener('submit', () => {
       Accept: '*/*',
     },
     // body: JSON.stringify(queryStr),
-    body: JSON.stringify(queryStr),
-    mode: 'no-cors',
+    body: JSON.stringify(queryStr)
   }
 
   function status(response) {
@@ -93,16 +92,15 @@ formElement.addEventListener('submit', () => {
     return Promise.reject(new Error(response.statusText))
   }
 
-  function jsonRes(response) {
-    return JSON.parse(response)
-  }
-
-  if (!status) {
-    console.log('bad request')
-  }
+  
 
   fetch(url, postReq)
-    .then(response => jsonRes(response))
+    .then(response => {
+      if (!status(response)) {
+        console.log('bad request')
+      }
+      return response.json();
+    })
     .then(data => appendResultData(data))
     .catch((err) => {
       console.log(err)
