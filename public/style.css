@@ -45,7 +45,6 @@ img{
     border-radius: var(--bradius);
     max-height: 40vh;
     max-width: 90%;
-    width:90%;
     height: auto;
     margin: 0 auto .5rem auto;
 }
@@ -92,9 +91,7 @@ input {
 }
 
 #display-picks{ 
-   /* height: 40vh;
-   border: 1px solid black; 
-   width: 100vw; */
+   margin: 0 25px 0 25px;
 }
 
 
