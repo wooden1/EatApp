@@ -11,27 +11,39 @@
 <body>
     <div id="container">
         <h1>Eatsit restaurant picker</h1>
-        <figure>
-            <img src="https://source.unsplash.com/random/200x200/?restaurants, food/" alt="restaurant">
+        <!-- <figure>
+            <img src="https://source.unsplash.com/random/500x500/?restaurants, food/" alt="restaurant">
             <a href="https://wwww.unsplash.com" target="_blank">
                 <figcaption>image from unsplash 
                 </figcaption>
                 <i class="fas fa-camera-retro"></i>
             </a>
-        </figure>
+        </figure> -->
         <form id="form">
-            <h2 class="form-space">Get a list of near by places. </h2>
-            <input type="text" name="location" placeholder=" Please enter zip code">
+            <h2 class="form-space">Get a list of near by places.</h2>
+            <input type="text" name="zipcode" placeholder=" Please enter zip code">
             <button id="button" type="button">
                 <i class="fas fa-search-location"> 
                 </i>
             </button>
         </form>
         <section id="display-picks">
-          
+          <div class="flip-card">
+              <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                     <img src="https://source.unsplash.com/random/300x300/?restaurants, food/" alt="restaurant">
+                     <a href="https://wwww.unsplash.com" target="_blank">
+                  </div>
+                  <div class="flip-card-back">
+                      <h2>Restaurant</h2>
+                      <p>five stars</p>
+                      <p>123 test pl.</p>
+                      <p>555-123-4567</p>
+                  </div>
+              </div>
+          </div>
         </section>
         <footer> 
-            <span>
                 App by: lynnwood ray &copy; 2019 
             </span>
         </footer>

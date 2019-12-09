@@ -46,8 +46,15 @@ formElement.addEventListener('click', () => {
   // e.preventDefault()
   const display = document.querySelector('#display-picks')
   const zipInput = document.querySelector('input').value
+  // const param = new URLSearchParams(window.location.search)
+
+  // const zipInput = param.get('zipcode')
+
+  console.log(zipInput)
+
   const zipcode = verifyZipCode(zipInput)
   const url = new URL('http://localhost:7001/results')
+
 
   const queryStr = {
     location: zipcode,
@@ -81,8 +88,7 @@ formElement.addEventListener('click', () => {
       'Content-Type': 'application/json; charset=UTF-8',
       Accept: '*/*',
     },
-    // body: JSON.stringify(queryStr),
-    body: JSON.stringify(queryStr)
+    body: JSON.stringify(queryStr),
   }
 
   function status(response) {
@@ -92,14 +98,12 @@ formElement.addEventListener('click', () => {
     return Promise.reject(new Error(response.statusText))
   }
 
-  
-
   fetch(url, postReq)
-    .then(response => {
+    .then((response) => {
       if (!status(response)) {
         console.log('bad request')
       }
-      return response.json();
+      return response.json()
     })
     .then(data => appendResultData(data))
     .catch((err) => {
@@ -108,6 +112,7 @@ formElement.addEventListener('click', () => {
 
   // formElement.zipInput.value('')
 })
+
 // TODO: create filter function that allows user to exclude places (i.e: dietary restrictions, allergies, etc.)
 
 // TODO: Create a function for picking a place at random

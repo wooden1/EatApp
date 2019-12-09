@@ -53,7 +53,10 @@ app.post('/results', (req, res) => {
     client
       .search(searchReq)
       .then(response => JSON.stringify(response.jsonBody.businesses, null, 4))
-      .then(data => res.send(data))
+      .then((data) => {
+        console.log(data)
+        res.send(data)
+      })
       .catch((err) => {
         console.log(err)
       })
