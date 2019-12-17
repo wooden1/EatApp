@@ -37,7 +37,7 @@ const searchReq = {
   term: 'restaurants',
   location: null,
   distance: 8046.72, // 5 miles
-  limit: 1,
+  limit: 3,
 }
 
 app.use(express.urlencoded({ extended: false }))
@@ -53,10 +53,8 @@ app.post('/results', (req, res) => {
     client
       .search(searchReq)
       .then(response => JSON.stringify(response.jsonBody.businesses, null, 4))
-      .then((data) => {
-        console.log(data)
-        res.send(data)
-      })
+      .then(data =>
+        res.send(data))
       .catch((err) => {
         console.log(err)
       })

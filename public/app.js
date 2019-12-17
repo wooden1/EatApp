@@ -45,16 +45,9 @@ const formElement = document.querySelector('#button')
 formElement.addEventListener('click', () => {
   // e.preventDefault()
   const display = document.querySelector('#display-picks')
-  const zipInput = document.querySelector('input').value
-  // const param = new URLSearchParams(window.location.search)
-
-  // const zipInput = param.get('zipcode')
-
-  console.log(zipInput)
-
+  let zipInput = document.querySelector('input').value
   const zipcode = verifyZipCode(zipInput)
   const url = new URL('http://localhost:7001/results')
-
 
   const queryStr = {
     location: zipcode,
@@ -63,21 +56,22 @@ formElement.addEventListener('click', () => {
   function appendResultData(data) {
     for (let i = 0; i < data.length; i++) {
       const div = document.createElement('div')
-      div.innerHTML = ` <div class="flip-card">
+      div.innerHTML = `<div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <img src="${data[i].image_url} alt="restaurant" style="width:200px;height:200px;">
+              <img src="${data[i].image_url}">
             </div>
             <div class="flip-card-back">
-              <h2>${data[i].name}</h2> 
+              <h2>${data[i].name}
+              </h2> 
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#f2900f" fill-opacity="1" d="M0,96L48,80C96,64,192,32,288,48C384,64,480,128,576,170.7C672,213,768,235,864,240C960,245,1056,235,1152,218.7C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
               <p>${data[i].rating}</p>
               <p>${data[i].location.display_address}
               </p> 
-              <p>${data[i].phone}</p>
+              <p>${data[i].display_phone}</p>
             </div>
           </div>
-        </div> `
-
+        </div>`
       display.appendChild(div)
     }
   }
@@ -105,12 +99,15 @@ formElement.addEventListener('click', () => {
       }
       return response.json()
     })
-    .then(data => appendResultData(data))
+    .then((data) => {
+      appendResultData(data)
+    })
     .catch((err) => {
       console.log(err)
     })
-
-  // formElement.zipInput.value('')
+  zipInput = ''
+  // return false
+  display.removeChild(display.childNodes)
 })
 
 // TODO: create filter function that allows user to exclude places (i.e: dietary restrictions, allergies, etc.)
