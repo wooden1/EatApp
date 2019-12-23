@@ -16,14 +16,18 @@
     padding: 0;
     line-height: 1.25;
 }
+body{
+    overflow-x: hidden;
+}
 
 #container{
     display: grid;
     font-family: Verdana, Geneva, Tahoma,   sans-serif;
     background: var(--prime);
     width: 100vw;
-    height: 100vh;
-    grid-template-rows: auto;
+    min-height: 100vh;   
+    grid-template-rows: 1fr 1fr 2fr 1fr;
+    row-gap: 3rem;
 }
 
 h1{
@@ -33,27 +37,20 @@ h1{
     justify-self: center;
 }
 
-/* figure{
-    align-self: center;
-    text-align: center;
-    width:100vw;
-} */
 
 img{
     background-color: var(--white);
     box-shadow: 2px 5px 5px 2px var(--blk);
     display: block;
     border: 2px solid var(--secondary-clr);
-    max-width: 100%;
-    /* margin: 0 auto .5rem auto; */
+    width: 100%;
+    height: 18.5em;
+    margin: auto;
+    cursor: pointer;
+    object-fit: cover;
 }
 
-/* figcaption{
-    display: inline;
-    color: var(--white);
-    font-size: .8rem;
-    text-decoration: none;
-} */
+
 
 i{
     margin-left: .3rem;
@@ -61,9 +58,6 @@ i{
     font-size: 1.1rem;
 }
 
-/* figcaption:hover{
-    color:var(--secondary-clr);
-}  */
 
 
 #form{
@@ -98,9 +92,11 @@ input {
 #display-picks{ 
     display: grid;
     margin: auto; 
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    grid-template-columns: repeat(3, minmax(10em, 1fr)); 
     row-gap: 2em;
-    /* grid-template-columns: repeat(3, 1fr);  */
+    column-gap: 2em;
+    grid-template-rows: repeat(auto, minmax(12rem,1fr)); 
+    /* height: 100%; */
 }
 
 /* Flip card */
@@ -142,13 +138,14 @@ input {
 /* style the back */
 .flip-card-back{
     background-color: #1e90ff;
+    display: grid;
     color: var(--white);
     transform:rotateY(180deg);
-    text-align: center;;
+    text-align: center;
+    grid-template-rows: repeat(auto, 1fr);
 }
-.flip-card-back> h2{
-    
-}
+
+
 /*curved svg path */
 .flip-card-back svg{
     display: block;

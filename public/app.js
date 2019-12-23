@@ -42,10 +42,9 @@ function verifyZipCode(z) {
 
 const formElement = document.querySelector('#button')
 
-formElement.addEventListener('click', () => {
-  // e.preventDefault()
+const postFunction = () => {
   const display = document.querySelector('#display-picks')
-  let zipInput = document.querySelector('input').value
+  const zipInput = document.querySelector('input').value
   const zipcode = verifyZipCode(zipInput)
   const url = new URL('http://localhost:7001/results')
 
@@ -105,9 +104,16 @@ formElement.addEventListener('click', () => {
     .catch((err) => {
       console.log(err)
     })
-  zipInput = ''
-  // return false
+  zipInput.value('')
   display.removeChild(display.childNodes)
+}
+
+const input = document.querySelector('input')
+formElement.addEventListener('click', postFunction, false)
+input.addEventListener('keydown', (event) => {
+  if (event.keyCode === 13) {
+    postFunction()
+  }
 })
 
 // TODO: create filter function that allows user to exclude places (i.e: dietary restrictions, allergies, etc.)
