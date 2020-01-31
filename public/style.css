@@ -6,12 +6,12 @@
     --secondary-clr: #f2900f;
     --white: rgba(233, 233, 233, 0.801);
     --blk: #353535;
-    --bradius: 8px;
 }
 
 /* 🌎 */
 *,*:before,*:after{
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     margin: 0;
     padding: 0;
     line-height: 1.25;
@@ -26,7 +26,7 @@ body{
     background: var(--prime);
     width: 100vw;
     min-height: 100vh;   
-    grid-template-rows: 1fr 1fr 2fr 1fr;
+    grid-template-rows: auto auto 2fr auto;
     row-gap: 3rem;
 }
 
@@ -40,14 +40,16 @@ h1{
 
 img{
     background-color: var(--white);
-    box-shadow: 2px 5px 5px 2px var(--blk);
+    -webkit-box-shadow: 2px 5px 5px 2px var(--blk);
+            box-shadow: 2px 5px 5px 2px var(--blk);
     display: block;
     border: 2px solid var(--secondary-clr);
     width: 100%;
     height: 18.5em;
     margin: auto;
     cursor: pointer;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
 }
 
 
@@ -61,9 +63,15 @@ i{
 
 
 #form{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
 }
 
 input {
@@ -92,21 +100,57 @@ input {
 #display-picks{ 
     display: grid;
     margin: auto; 
-    grid-template-columns: repeat(3, minmax(10em, 1fr)); 
     row-gap: 2em;
-    column-gap: 2em;
+    -webkit-column-gap: 2em;
+            column-gap: 2em;
     grid-template-rows: repeat(auto, minmax(12rem,1fr)); 
-    /* height: 100%; */
 }
 
 /* Flip card */
 .flip-card{
     background-color: transparent;
-    min-width:300px;    
-    min-height: 300px; 
+    min-width:12rem;    
+    min-height: 12rem; 
     border:1px solid inherit;
+    border-radius: .1em; 
     /* causes 3d effect */
-    perspective: 1000px; 
+    -webkit-perspective: 1000px;
+            perspective: 1000px; 
+    animation: slide-card 2s ease-in;        
+}
+
+@keyframes slide-card{
+    0%{
+        transform: skewX(53deg) translateX(-1000px);
+        opacity: 0;      
+    }
+
+    60%{
+        transform: translateX(0px);
+        opacity: 0.25;
+    }
+    65%{
+        transform: skewX(0deg);
+    }
+    70%{
+        transform:skew(-8deg);
+        opacity: 0.5;
+    }
+    75%{
+        transform: skew(7deg);
+    }
+
+    80%{
+        transform: skew(-5deg);
+        opacity: 0.75;
+    }
+    90%{
+        transform: skew(2deg);
+    }
+    100%{
+        transform: skew(0deg);
+        opacity: 1;
+    }
 }
 
 .flip-card-inner{
@@ -114,12 +158,17 @@ input {
     width: 100%;
     height: 100%;
     text-align: center;
+    -webkit-transition: -webkit-transform 1.5s;
+    transition: -webkit-transform 1.5s;
     transition: transform 1.5s;
-    transform-style: preserve-3d;
+    transition: transform 1.5s, -webkit-transform 1.5s;
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
 }
 
 .flip-card:hover .flip-card-inner{
-    transform: rotateY(-180deg);
+    -webkit-transform: rotateY(-180deg);
+            transform: rotateY(-180deg);
 }
 
 /* position front and back of card */
@@ -127,20 +176,22 @@ input {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
 }
 /* style the front */
 .flipcard-front{
     background-color: inherit;
-    color: black;
+    /* color: black; */
 }
 
 /* style the back */
 .flip-card-back{
-    background-color: #1e90ff;
+    background-color: d;
     display: grid;
-    color: var(--white);
-    transform:rotateY(180deg);
+    color: var(--secondary-clr);
+    -webkit-transform:rotateY(180deg);
+            transform:rotateY(180deg);
     text-align: center;
     grid-template-rows: repeat(auto, 1fr);
 }

@@ -41,9 +41,9 @@ function verifyZipCode(z) {
 }
 
 const formElement = document.querySelector('#button')
+const display = document.querySelector('#display-picks')
 
 const postFunction = () => {
-  const display = document.querySelector('#display-picks')
   const zipInput = document.querySelector('input').value
   const zipcode = verifyZipCode(zipInput)
   const url = new URL('http://localhost:7001/results')
@@ -63,7 +63,6 @@ const postFunction = () => {
             <div class="flip-card-back">
               <h2>${data[i].name}
               </h2> 
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#f2900f" fill-opacity="1" d="M0,96L48,80C96,64,192,32,288,48C384,64,480,128,576,170.7C672,213,768,235,864,240C960,245,1056,235,1152,218.7C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
               <p>${data[i].rating}</p>
               <p>${data[i].location.display_address}
               </p> 
@@ -94,7 +93,7 @@ const postFunction = () => {
   fetch(url, postReq)
     .then((response) => {
       if (!status(response)) {
-        console.log('bad request')
+        throw new Error(`Bad Request ${response}`)
       }
       return response.json()
     })
@@ -102,10 +101,8 @@ const postFunction = () => {
       appendResultData(data)
     })
     .catch((err) => {
-      console.log(err)
+      throw new Error(err)
     })
-  zipInput.value('')
-  display.removeChild(display.childNodes)
 }
 
 const input = document.querySelector('input')
