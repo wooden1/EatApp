@@ -78,6 +78,13 @@ input {
     border-radius: 1.1rem;
     text-align:justify;
 }
+input:focus{
+    background-color: var(--white);
+    border-radius: 1.1rem;
+}
+input[type=text]{
+    padding: 0 1em;
+}
 
 #button{
     background-color: inherit;

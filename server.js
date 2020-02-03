@@ -37,7 +37,8 @@ const searchReq = {
   term: 'restaurants',
   location: null,
   distance: 8046.72, // 5 miles
-  limit: 3,
+  limit: 1,
+  offset: 2,
 }
 
 app.use(express.urlencoded({ extended: false }))
@@ -56,7 +57,7 @@ app.post('/results', (req, res) => {
       .then(data =>
         res.send(data))
       .catch((err) => {
-        console.log(err)
+        throw new Error(`Data not retrieved from yelp fusion api properly: ${err}`)
       })
   }
 })

@@ -67,13 +67,19 @@ const postFunction = () => {
               <p>${data[i].location.display_address}
               </p> 
               <p>${data[i].display_phone}</p>
+              <p><a href=${data[i].website}>Website</a></p>
             </div>
           </div>
         </div>`
+
       display.appendChild(div)
     }
   }
-
+  function removeResults(el) {
+    if (display.childNodes.length > 1) {
+      display.removeChild(el)
+    }
+  }
   const postReq = {
     method: 'POST',
     headers: {
@@ -107,6 +113,7 @@ const postFunction = () => {
 
 const input = document.querySelector('input')
 formElement.addEventListener('click', postFunction, false)
+// Press
 input.addEventListener('keydown', (event) => {
   if (event.keyCode === 13) {
     postFunction()
@@ -117,4 +124,3 @@ input.addEventListener('keydown', (event) => {
 
 // TODO: Create a function for picking a place at random
 
-// TODO: Create a UI slider to limit/expand search distance
