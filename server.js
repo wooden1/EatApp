@@ -38,7 +38,7 @@ const searchReq = {
   location: null,
   distance: 8046.72, // 5 miles
   limit: 1,
-  offset: 2,
+  offset: null,
 }
 
 app.use(express.urlencoded({ extended: false }))

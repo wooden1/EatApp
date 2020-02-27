@@ -5,7 +5,6 @@
  ** **********************************************
  */
 
-// TODO: Get users zip code to gather list of restuarants near by based on a their distance
 function ZipCodeFormatException(value) {
   this.value = value
   this.message = 'does not conform to the expected format for a zip code'
@@ -54,8 +53,8 @@ const postFunction = () => {
 
   function appendResultData(data) {
     for (let i = 0; i < data.length; i++) {
-      const div = document.createElement('div')
-      div.innerHTML = `<div class="flip-card">
+      // const div = document.createElement('div')
+      display.innerHTML = `<div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <img src="${data[i].image_url}">
@@ -67,19 +66,20 @@ const postFunction = () => {
               <p>${data[i].location.display_address}
               </p> 
               <p>${data[i].display_phone}</p>
-              <p><a href=${data[i].website}>Website</a></p>
+              <p><a href=${data[i].url}>Website</a></p>
             </div>
           </div>
         </div>`
+      display.appendChild(data[i])
+    }
+  }
 
-      display.appendChild(div)
-    }
-  }
-  function removeResults(el) {
-    if (display.childNodes.length > 1) {
-      display.removeChild(el)
-    }
-  }
+  // function removeResultData(data) {
+  //   if (display.childNodes.data.length > 1) {
+  //     display.removeChild(data[0])
+  //   }
+  // }
+
   const postReq = {
     method: 'POST',
     headers: {
@@ -104,6 +104,10 @@ const postFunction = () => {
       return response.json()
     })
     .then((data) => {
+      console.log(data)
+      if (display.childNodes.length > 1) {
+        display.removeChild(display.childNodes[0])
+      }
       appendResultData(data)
     })
     .catch((err) => {

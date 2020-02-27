@@ -16,18 +16,40 @@
     padding: 0;
     line-height: 1.25;
 }
+html{
+    overflow:auto;
+    font-size: 62.5%;
+}
 body{
     overflow-x: hidden;
+    scrollbar-width: .93em;
+    scrollbar-color: var(--white) var(--secondary-clr);
 }
 
+body::-webkit-scrollbar{
+    width: .93em;
+}
+body::-webkit-scrollbar-thumb{
+    background-color: var(--blk);
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0 ,0, 0.3);
+}
+body::-webkit-scrollbar-track{
+    background-color: var(--secondary-clr);
+    box-shadow: inset 0 0 6px rgba(0, 2, 2, 0.3);
+}
+body::-webkit-scrollbar-track-piece{
+    border-radius: 10px;
+}
 #container{
     display: grid;
     font-family: Verdana, Geneva, Tahoma,   sans-serif;
     background: var(--prime);
     width: 100vw;
     min-height: 100vh;   
-    grid-template-rows: auto auto 2fr auto;
+    grid-template-rows: auto auto minmax(2fr, auto,fill) auto;
     row-gap: 3rem;
+    /* scrollbar-color: yellow blue; */
 }
 
 h1{
@@ -35,6 +57,8 @@ h1{
     color: var(--secondary-clr);
     font-family: Spirax; 
     justify-self: center;
+    font-size: 3rem;
+    margin-top: 1rem;
 }
 
 
@@ -56,8 +80,8 @@ img{
 
 i{
     margin-left: .3rem;
-    color: var(--blk);
-    font-size: 1.1rem;
+    color: var(--secondary-clr);
+    font-size: 2.1rem;
 }
 
 
@@ -72,15 +96,16 @@ i{
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
+            font-size: 2rem;
 }
 
 input {
     border-radius: 1.1rem;
     text-align:justify;
+    outline-width: thin;
 }
 input:focus{
     background-color: var(--white);
-    border-radius: 1.1rem;
 }
 input[type=text]{
     padding: 0 1em;
@@ -99,7 +124,7 @@ input[type=text]{
 }
 
 .form-space{
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     margin-right: 1em;
     color: var(--secondary-clr);
 }
@@ -116,19 +141,19 @@ input[type=text]{
 /* Flip card */
 .flip-card{
     background-color: transparent;
-    min-width:12rem;    
+    min-width:12em;    
     min-height: 12rem; 
     border:1px solid inherit;
     border-radius: .1em; 
     /* causes 3d effect */
     -webkit-perspective: 1000px;
             perspective: 1000px; 
-    animation: slide-card 2s ease-in;        
+    animation: slide-card .91s ease-in;        
 }
 
 @keyframes slide-card{
     0%{
-        transform: skewX(53deg) translateX(-1000px);
+        transform: skewX(-63deg) translateX(-1000px);
         opacity: 0;      
     }
 
@@ -188,13 +213,13 @@ input[type=text]{
 }
 /* style the front */
 .flipcard-front{
-    background-color: inherit;
-    /* color: black; */
+    /* background-color: inherit; */
+    background-color: black;
 }
 
 /* style the back */
 .flip-card-back{
-    background-color: d;
+    background-color: dodgerblue;
     display: grid;
     color: var(--secondary-clr);
     -webkit-transform:rotateY(180deg);
@@ -205,9 +230,9 @@ input[type=text]{
 
 
 /*curved svg path */
-.flip-card-back svg{
+/* .flip-card-back svg{
     display: block;
-}
+} */
 
 
 footer{
@@ -218,6 +243,6 @@ footer{
 } 
 
 span{
-    margin-top: 2rem;
-    justify-self: end;
+    position: relative;
+    top: 90%;
 }
