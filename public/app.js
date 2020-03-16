@@ -98,7 +98,7 @@ const postFunction = () => {
       return response.json()
     })
     .then((data) => {
-      document.querySelector('input').value = ''
+      // document.querySelector('input').value = ''
       // Shuffle array
       const shuffled = data.sort(() => 0.5 - Math.random())
       // Get sub-array of first n elements after shuffled
