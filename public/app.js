@@ -101,7 +101,6 @@ const postFunction = () => {
       document.querySelector('input').value = ''
       // Shuffle array
       const shuffled = data.sort(() => 0.5 - Math.random())
-      console.log(shuffled)
       // Get sub-array of first n elements after shuffled
       const selected = shuffled.slice(0)
 
