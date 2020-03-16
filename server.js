@@ -10,7 +10,6 @@ const yelp = require('yelp-fusion')
 const express = require('express')
 
 const app = express()
-// const urlEncodedParser = bodyParser.urlencoded({ extended: false })
 const apiKey = process.env.YELP_API_KEY
 const client = yelp.client(apiKey)
 const port = 7001
@@ -37,8 +36,7 @@ const searchReq = {
   term: 'restaurants',
   location: null,
   distance: 8046.72, // 5 miles
-  limit: 1,
-  offset: null,
+  limit: 10,
 }
 
 app.use(express.urlencoded({ extended: false }))

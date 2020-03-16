@@ -74,12 +74,6 @@ const postFunction = () => {
     }
   }
 
-  // function removeResultData(data) {
-  //   if (display.childNodes.data.length > 1) {
-  //     display.removeChild(data[0])
-  //   }
-  // }
-
   const postReq = {
     method: 'POST',
     headers: {
@@ -104,11 +98,17 @@ const postFunction = () => {
       return response.json()
     })
     .then((data) => {
-      console.log(data)
+      document.querySelector('input').value = ''
+      // Shuffle array
+      const shuffled = data.sort(() => 0.5 - Math.random())
+      console.log(shuffled)
+      // Get sub-array of first n elements after shuffled
+      const selected = shuffled.slice(0)
+
       if (display.childNodes.length > 1) {
         display.removeChild(display.childNodes[0])
       }
-      appendResultData(data)
+      appendResultData(selected)
     })
     .catch((err) => {
       throw new Error(err)

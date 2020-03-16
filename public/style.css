@@ -69,7 +69,7 @@ img{
     display: block;
     border: 2px solid var(--secondary-clr);
     width: 100%;
-    height: 18.5em;
+    height: 30em;
     margin: auto;
     cursor: pointer;
     -o-object-fit: cover;
@@ -81,7 +81,7 @@ img{
 i{
     margin-left: .3rem;
     color: var(--secondary-clr);
-    font-size: 2.1rem;
+    font-size: 2rem;
 }
 
 
@@ -90,13 +90,15 @@ i{
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    /* flex-direction: column; */
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 1.5em;
+            
 }
 
 input {
@@ -124,7 +126,7 @@ input[type=text]{
 }
 
 .form-space{
-    font-size: 1.5rem;
+    font-size: 1.5em;
     margin-right: 1em;
     color: var(--secondary-clr);
 }
@@ -141,17 +143,18 @@ input[type=text]{
 /* Flip card */
 .flip-card{
     background-color: transparent;
-    min-width:12em;    
-    min-height: 12rem; 
+    min-width: 30em;    
+    min-height: 30rem;
     border:1px solid inherit;
     border-radius: .1em; 
     /* causes 3d effect */
     -webkit-perspective: 1000px;
             perspective: 1000px; 
-    animation: slide-card .91s ease-in;        
+    animation: slide-card-in .91s ease-in; 
+        
 }
 
-@keyframes slide-card{
+@keyframes slide-card-in{
     0%{
         transform: skewX(-63deg) translateX(-1000px);
         opacity: 0;      
@@ -184,6 +187,7 @@ input[type=text]{
         opacity: 1;
     }
 }
+
 
 .flip-card-inner{
     position: relative;
