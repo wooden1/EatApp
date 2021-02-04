@@ -1,62 +1,63 @@
-
 /**
  ** ***************  EATSIT APP ******************
  **           composition by Lynnwood Ray
  ** **********************************************
  */
+;(function () {
+  'use strict'
 
-// TODO: Get users zip code to gather list of restuarants near by based on a their distance
-function ZipCodeFormatException(value) {
-  this.value = value
-  this.message = 'does not conform to the expected format for a zip code'
-  this.toString = function () {
-    return this.value + this.message
-  }
-}
-
-// Zipcode validation
-function ZipCode(zip) {
-  const pattern = /[0-9]{5}([- ]?[0-9]{4})?/
-  if (!pattern.test(zip)) {
-    throw new ZipCodeFormatException(zip)
-  } else {
-    return zip
-  }
-}
-
-function verifyZipCode(z) {
-  const ZIPCODE_INVALID = -1
-  const ZIPCODE_UNKNOWN_ERROR = -2
-  try {
-    if (z === ZipCode(z)) {
-      return z
+  // TODO: Get users zip code to gather list of restuarants near by based on a their distance
+  function ZipCodeFormatException(value) {
+    this.value = value
+    this.message = 'does not conform to the expected format for a zip code'
+    this.toString = function () {
+      return this.value + this.message
     }
-  } catch (e) {
-    if (e instanceof ZipCodeFormatException) {
-      return ZIPCODE_INVALID
+  }
+
+  // Zipcode validation
+  function ZipCode(zip) {
+    const pattern = /[0-9]{5}([- ]?[0-9]{4})?/
+    if (!pattern.test(zip)) {
+      throw new ZipCodeFormatException(zip)
+    } else {
+      return zip
     }
-    return ZIPCODE_UNKNOWN_ERROR
-  }
-  return verifyZipCode
-}
-
-const formElement = document.querySelector('#button')
-
-formElement.addEventListener('click', () => {
-  // e.preventDefault()
-  const display = document.querySelector('#display-picks')
-  let zipInput = document.querySelector('input').value
-  const zipcode = verifyZipCode(zipInput)
-  const url = new URL('http://localhost:7001/results')
-
-  const queryStr = {
-    location: zipcode,
   }
 
-  function appendResultData(data) {
-    for (let i = 0; i < data.length; i++) {
-      const div = document.createElement('div')
-      div.innerHTML = `<div class="flip-card">
+  function verifyZipCode(z) {
+    const ZIPCODE_INVALID = -1
+    const ZIPCODE_UNKNOWN_ERROR = -2
+    try {
+      if (z === ZipCode(z)) {
+        return z
+      }
+    } catch (e) {
+      if (e instanceof ZipCodeFormatException) {
+        return ZIPCODE_INVALID
+      }
+      return ZIPCODE_UNKNOWN_ERROR
+    }
+    return verifyZipCode
+  }
+
+  const formElement = document.querySelector('#button')
+
+  formElement.addEventListener('click', () => {
+    // e.preventDefault()
+    const display = document.querySelector('#display-picks')
+    let zipInput = document.querySelector('input').value
+    const zipcode = verifyZipCode(zipInput)
+    const url = new URL('http://localhost:7001/results')
+
+    const queryStr = {
+      location: zipcode,
+    }
+
+    function appendResultData(data) {
+      for (let i = 0; i < data.length; i++) {
+        const div = document.createElement('div')
+        div.innerHTML = `<div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <img src="${data[i].image_url}">
@@ -72,46 +73,47 @@ formElement.addEventListener('click', () => {
             </div>
           </div>
         </div>`
-      display.appendChild(div)
-    }
-  }
-
-  const postReq = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json; charset=UTF-8',
-      Accept: '*/*',
-    },
-    body: JSON.stringify(queryStr),
-  }
-
-  function status(response) {
-    if (response.status >= 200 && response.status < 300) {
-      return Promise.resolve(response)
-    }
-    return Promise.reject(new Error(response.statusText))
-  }
-
-  fetch(url, postReq)
-    .then((response) => {
-      if (!status(response)) {
-        console.log('bad request')
+        display.appendChild(div.firstChild)
       }
-      return response.json()
-    })
-    .then((data) => {
-      appendResultData(data)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  zipInput = ''
-  // return false
-  display.removeChild(display.childNodes)
-})
+    }
 
-// TODO: create filter function that allows user to exclude places (i.e: dietary restrictions, allergies, etc.)
+    const postReq = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        Accept: '*/*',
+      },
+      body: JSON.stringify(queryStr),
+    }
 
-// TODO: Create a function for picking a place at random
+    function status(response) {
+      if (response.status >= 200 && response.status < 300) {
+        return Promise.resolve(response)
+      }
+      return Promise.reject(new Error(response.statusText))
+    }
 
-// TODO: Create a UI slider to limit/expand search distance
+    fetch(url, postReq)
+      .then((response) => {
+        if (!status(response)) {
+          console.log('bad request')
+        }
+        return response.json()
+      })
+      .then((data) => {
+        appendResultData(data)
+      })
+      .catch((err) => {
+        console.error('Error:`', err)
+      })
+    zipInput = ''
+    // return false
+    display.removeChild(display)
+  })
+
+  // TODO: create filter function that allows user to exclude places (i.e: dietary restrictions, allergies, etc.)
+
+  // TODO: Create a function for picking a place at random
+
+  // TODO: Create a UI slider to limit/expand search distance
+})()
