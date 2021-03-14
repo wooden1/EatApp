@@ -40,11 +40,19 @@
     }
     return verifyZipCode
   }
-
   const formElement = document.querySelector('#button')
+  function initListeners() {
+    let zipInput = document.querySelector('input')
+    formElement.addEventListener('click', () => businessLogic())
+    zipInput.addEventListener('keydown', (event) => {
+      console.log(event.code)
+      if (event.code === 'enter') {
+        businessLogic()
+      }
+    })
+  }
 
-  formElement.addEventListener('click', () => {
-    // e.preventDefault()
+  function businessLogic() {
     const display = document.querySelector('#display-picks')
     let zipInput = document.querySelector('input').value
     const zipcode = verifyZipCode(zipInput)
@@ -109,7 +117,9 @@
     zipInput = ''
     // return false
     display.removeChild(display)
-  })
+  }
+
+  initListeners()
 
   // TODO: create filter function that allows user to exclude places (i.e: dietary restrictions, allergies, etc.)
 
